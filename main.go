@@ -108,7 +108,12 @@ defer server.Close()
 
 http.Handle("/socket.io/", server)
 http.Handle("/", http.FileServer(http.Dir("./public")))
+http.HandleFunc("/chat-room", BackToLogin)
 
 log.Println("Serving at localhost:8080...")
 log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func BackToLogin(w http.ResponseWriter, r *http.Request) {
+    http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
